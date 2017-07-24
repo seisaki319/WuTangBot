@@ -1,4 +1,3 @@
-import songwriter, rhymer
+import songwriter, rhymer, model_io
 r = rhymer.Rhymer()
-# print(r.rhyme('Orchestra', 1))
-songwriter.Songwriter().generate_song('Cant keep my dick in my pants', 15)
+songwriter.Songwriter().generate_song('Would sex with a centaur be considered bestiality', 2, 'wutangmodel', rhymelevel = 2)

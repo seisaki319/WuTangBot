@@ -9,6 +9,7 @@ import sylco
 import threading
 import rhymer
 import os
+import model_io
 from string import punctuation
 from random import randint
 
@@ -37,17 +38,14 @@ class Songwriter(object):
     3. Proceed if syllable count is correct, otherwise go to (2)
     4. Concat all haiku lines
     '''
-    def generate_song(self, input_string, linecount):
+    def generate_song(self, input_string, linecount, modelname, rhymelevel = 9000):
         last_word = input_string.split(' ')[-1]
         def syl_thresh_check(actual, target):
             return abs(actual - target) > self.config.syl_diff_threshold 
         target_syls = sylco.getsyls(input_string)
-        all_text = "";
-        rhymes = self.rhymer.rhyme(last_word) 
-        for i in os.listdir(self.config.markovify_input_dir):
-            with open(self.config.markovify_input_dir + i) as f:
-                all_text += f.read()
-        text_model = markovify.NewlineText(all_text)
+        rhymes = self.rhymer.rhyme(last_word, rhymelevel)
+        text_model = model_io.read_model(modelname)
+        print('Model loaded.')
         lines = [input_string]
         for i in range(linecount):
             count, line = 0, None
@@ -55,18 +53,17 @@ class Songwriter(object):
                 line = text_model.make_short_sentence(
                     2 * len(input_string),
                     min_chars = .75 * len(input_string),
-                    tries=10,
-                    max_overlap_ratio=self.config.markovify_max_overlap_ratio,
-                    max_overlap_total=self.config.markovify_max_overlap_total
+                    tries=10
+                    # max_overlap_ratio=self.config.markovify_max_overlap_ratio,
+                    # max_overlap_total=self.config.markovify_max_overlap_total
                 )
                 count += 1
                 if line:
                     line = line.translate(str.maketrans("", "", punctuation))
-                # print(line)
             lines.append(line)
+            print('Found line {0}.'.format(i + 1))
         song = "\n".join(lines)
 
-        print("")
         print("***********************")
         print("-----------------------")
         print(song)

@@ -2,7 +2,7 @@ import nltk, pronouncing
 
 class Rhymer(object):
 	VOWELS = ['AA', 'AH', 'AW', 'AH', 'AO', 'AY', 'EH','ER', 'EY', 'IY', 'OY', 'OW', 'UW', 'UH']
-	def rhyme(self, inp, level = 9000, exact = False):
+	def rhyme(self, inp, level, exact = False):
 		inp = inp.lower()
 		entries = nltk.corpus.cmudict.entries()
 		syllables = [(word, syl) for word, syl in entries if word == inp]

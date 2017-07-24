@@ -18,7 +18,7 @@ def lyrics_from_song_api_path(song_api_path):
   [h.extract() for h in html('script')]
   #at least Genius is nice and has a tag called 'lyrics'!
   lyrics = html.find('div', class_='lyrics').get_text() #updated css where the lyrics are based in HTML
-  return re.sub(r"\[.*\]", "", lyrics)
+  return re.sub(r"\{.*\}", "", re.sub(r"\[.*\]", "", lyrics))
 
 def lyrics_from_artists(artist_id):
   print('Rendering artist {0}'.format(artist_id))

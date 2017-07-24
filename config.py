@@ -19,7 +19,7 @@ class Config(object):
         # Markovify
         self.markovify_input_dir = "./input/"
         self.markovify_max_overlap_total = 25
-        self.markovify_max_overlap_ratio = 0.9
+        self.markovify_max_overlap_ratio = 0.7
 
         # Haiku
         self.syl_diff_threshold = 0
