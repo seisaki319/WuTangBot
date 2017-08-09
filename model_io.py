@@ -10,6 +10,7 @@ def write_model(input_dir, filename, newline = True):
 		json.dump(model_json, f)
 
 def read_model(filename, newline = True):
-	with open("{0}.txt".format(filename), 'r') as f:
+	filepath = os.path.abspath(os.path.join(os.path.dirname(__file__), "models", "{0}.txt".format(filename)))
+	with open(filepath, 'r') as f:
 		print('Found file!')
 		return markovify.NewlineText.from_json(json.load(f)) if newline else markovify.Text.from_json(json.load(f))
